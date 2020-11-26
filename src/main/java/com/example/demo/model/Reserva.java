@@ -23,7 +23,7 @@ public class Reserva{
         return cliente;
     }
 
-    public void setCliente(Cliente cliente){
+    public void setCliente(Clientes cliente){
         this.cliente = cliente;
     }
 
@@ -52,8 +52,7 @@ public class Reserva{
     }
 
     private void setTotal(Veículos veículo, Date data_i, Date data_f){
-        int data_dif;
-        
+        int data_dif;   
     }
 
 }

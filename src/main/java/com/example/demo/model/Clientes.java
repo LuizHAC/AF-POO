@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-public class Reserva{
+public class Clientes{
     
     private int codigo;
     private String nome;

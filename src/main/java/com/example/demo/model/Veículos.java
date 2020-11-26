@@ -1,10 +1,10 @@
 package com.example.demo.model;
 
-public class Clientes{
+public class Veículos{
 
     private int codigo;
     private String modelo;
-    private double valor_diaria;
+    private double valor_diario;
 
     public int getCodigo(){
         return codigo;
@@ -22,11 +22,11 @@ public class Clientes{
         this.modelo = modelo;
     }
 
-    public void getValor_diario(){
-        return codigo;
+    public double getValor_diario(){
+        return valor_diario;
     }
 
-    public double setValor_diario(double valor_diario){
+    public void setValor_diario(double valor_diario){
         this.valor_diario = valor_diario;
     }
 }
