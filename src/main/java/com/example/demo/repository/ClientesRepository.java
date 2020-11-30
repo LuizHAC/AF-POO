@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.annotation.PostConstruct;
 
 import com.example.demo.model.Clientes;
+import com.example.demo.model.Reserva;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -77,6 +79,12 @@ public class ClientesRepository{
 
         return aux;
     }
+
+    //6-Lista todos as reservas do cliente
+    public List<Reserva> getAllReservas(Clientes clientes){
+        return clientes.getReservas();
+    }
+
 
     
 }

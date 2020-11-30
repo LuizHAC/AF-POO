@@ -1,17 +1,15 @@
-package com.example.demo.model;
+package com.example.demo.dto;
 
 import java.time.LocalDate;
-import java.time.Period;
 
-public class Reserva{
-    
+public class ReservaDTO {
     private int número;
     private int codCliente;
     private int codVeículo;
     private LocalDate data_i;
     private LocalDate data_f;
     private double total;
-
+    
     public int getNúmero() {
         return número;
     }
@@ -52,15 +50,12 @@ public class Reserva{
         this.data_f = data_f;
     }
 
-    public double getTotal(){
+    public double getTotal() {
         return total;
     }
-    
-    public void setTotal(Veículos veículo, LocalDate data_i, LocalDate data_f) {
-        Period p = Period.between(data_f, data_i);
-        int dias = p.getDays();
-        this.total = dias * veículo.getValor_diario();
-    }
 
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
 }
