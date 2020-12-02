@@ -49,7 +49,7 @@ public class Clientes {
     public ArrayList<Reserva> getReservas() {
         return reservas;
     }
-
+    
     public void getReservas(ArrayList<Reserva> reservas) {
         this.reservas = reservas;
     }

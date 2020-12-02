@@ -1,7 +1,6 @@
 package com.example.demo.model;
 
 import java.time.LocalDate;
-import java.time.Period;
 
 public class Reserva{
     
@@ -56,9 +55,7 @@ public class Reserva{
         return total;
     }
     
-    public void setTotal(Veiculos veiculo, LocalDate data_i, LocalDate data_f) {
-        Period p = Period.between(data_f, data_i);
-        int dias = p.getDays();
+    public void setTotal(Veiculos veiculo, int dias) {
         this.total = dias * veiculo.getValor_diario();
     }
 }

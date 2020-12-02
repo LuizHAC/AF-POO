@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import com.example.demo.dto.VeiculosDTO;
 import com.example.demo.model.Reserva;
@@ -45,7 +46,7 @@ public class VeiculosController {
     // 3 - Cadastrar um veiculo
     @PostMapping()
     public ResponseEntity<Veiculos> createVeiculo(
-        @RequestBody VeiculosDTO veiculoDTO,
+        @Valid @RequestBody VeiculosDTO veiculoDTO,
         HttpServletRequest request,
         UriComponentsBuilder builder
     ){
@@ -65,7 +66,10 @@ public class VeiculosController {
 
     // 5 - Alterar um veiculo
     @PutMapping("/{codigo}")
-    public ResponseEntity<Veiculos> updateVeiculo(@RequestBody VeiculosDTO veiculoDTO, @PathVariable int codigo) {
+    public ResponseEntity<Veiculos> updateVeiculo(
+        @Valid @RequestBody VeiculosDTO veiculoDTO,
+        @PathVariable int codigo
+    ) {
         Veiculos veiculo = veiculoService.fromDTO(veiculoDTO);
         veiculo.setCodigo(codigo);
         veiculo = veiculoService.updateVeiculo(veiculo);

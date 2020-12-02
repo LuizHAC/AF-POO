@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import com.example.demo.dto.ClientesDTO;
 import com.example.demo.model.Clientes;
@@ -45,10 +46,10 @@ public class ClientesController {
     // 3 - Cadastrar um cliente
     @PostMapping()
     public ResponseEntity<Clientes> createCliente(
-        @RequestBody ClientesDTO clienteDTO,
+        @Valid @RequestBody ClientesDTO clienteDTO,
         HttpServletRequest request,
         UriComponentsBuilder builder
-    ){
+    ) {
         Clientes escola = clienteService.fromDTO(clienteDTO);
         Clientes novoCliente = clienteService.createCliente(escola);
         UriComponents uriComponents = builder.path(request.getRequestURI() + "/" + novoCliente.getCodigo()).build();
@@ -65,7 +66,10 @@ public class ClientesController {
 
     // 5 - Alterar um cliente
     @PutMapping("/{codigo}")
-    public ResponseEntity<Clientes> updateCliente(@RequestBody ClientesDTO clienteDTO, @PathVariable int codigo) {
+    public ResponseEntity<Clientes> updateCliente(
+        @Valid @RequestBody ClientesDTO clienteDTO,
+        @PathVariable int codigo
+    ) {
         Clientes cliente = clienteService.fromDTO(clienteDTO);
         cliente.setCodigo(codigo);
         cliente = clienteService.updateCliente(cliente);

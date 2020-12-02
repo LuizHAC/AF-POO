@@ -18,19 +18,6 @@ public class ReservaRepository {
 
     @PostConstruct
     public void criarReservas() {
-        // Reserva c1 = new Reserva();
-        // Reserva c2 = new Reserva();
-
-        // c1.setNumero(nextNumero++);
-        // c1.setCodCliente(1);
-        // c1.setCodVeiculo(1);
-
-        // c2.setNumero(nextNumero++);
-        // c2.setCodCliente(2);
-        // c2.setCodVeiculo(2);
-
-        // reservas.add(c1);
-        // reservas.add(c2);
     }
 
     // 1 - Listar todas as reservas

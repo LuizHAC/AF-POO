@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import com.example.demo.dto.ReservaDTO;
 import com.example.demo.model.Reserva;
@@ -44,11 +45,14 @@ public class ReservaController {
     // 3 - Cadastrar uma reserva
     @PostMapping()
     public ResponseEntity<Reserva> createCliente(
-        @RequestBody ReservaDTO reservaDTO,
+        @Valid @RequestBody ReservaDTO reservaDTO,
         HttpServletRequest request,
         UriComponentsBuilder builder
     ){
         Reserva reserva = reservaService.fromDTO(reservaDTO);
+        if (reserva.getNumero() == -1) {
+            return ResponseEntity.badRequest().build();
+        }
         Reserva novaReserva = reservaService.createReserva(reserva);
         UriComponents uriComponents = builder.path(request.getRequestURI() + "/" + novaReserva.getNumero()).build();
         return ResponseEntity.created(uriComponents.toUri()).build();
@@ -64,7 +68,10 @@ public class ReservaController {
 
     // 5 - Alterar uma reserva
     @PutMapping("/{codigo}")
-    public ResponseEntity<Reserva> updateCliente(@RequestBody ReservaDTO reservaDTO, @PathVariable int codigo) {
+    public ResponseEntity<Reserva> updateCliente(
+        @Valid @RequestBody ReservaDTO reservaDTO,
+        @PathVariable int codigo
+    ) {
         Reserva reserva = reservaService.fromDTO(reservaDTO);
         reserva.setNumero(codigo);
         reserva = reservaService.updateReserva(reserva);

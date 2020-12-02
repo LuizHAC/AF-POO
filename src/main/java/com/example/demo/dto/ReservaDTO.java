@@ -2,12 +2,25 @@ package com.example.demo.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.Min;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ReservaDTO {
 
+    @Min(0)
     private int codCliente;
+
+    @Min(0)
     private int codVeiculo;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate data_i;
+
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate data_f;
+    
+    @Min(0)
     private double total;
     
     public int getCodCliente() {

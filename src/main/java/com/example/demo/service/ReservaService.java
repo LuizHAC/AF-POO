@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -85,10 +87,34 @@ public class ReservaService {
     // DTO
     public Reserva fromDTO(ReservaDTO dto){
         Reserva reserva = new Reserva();
+
+        //Pegar veiculo selecionado
+        Veiculos veiculo = veiculoService.getVeiculoByCodigo(dto.getCodVeiculo());
+        
         reserva.setCodCliente(dto.getCodCliente());
         reserva.setCodVeiculo(dto.getCodVeiculo());
         reserva.setData_i(dto.getData_i());
         reserva.setData_f(dto.getData_f());
+
+        LocalDate inicio = LocalDate.now();
+        if (dto.getData_i().isAfter(dto.getData_f())) {
+            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data final anterior a data inicial!");
+            reserva.setNumero(-1);
+        }
+        if (inicio.isAfter(dto.getData_i())) {
+            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data inicial anterior a data atual!");
+            reserva.setNumero(-1);
+        }
+        if (dto.getData_i().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data inicial é um domingo, selecione outra data!");
+            reserva.setNumero(-1);
+        }
+        if (dto.getData_f().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data final é um domingo, selecione outra data!");
+            reserva.setNumero(-1);
+        }
+        
+        reserva.setTotal(veiculo, 1+dto.getData_f().compareTo(dto.getData_i()));
         return reserva;
     }
 }
