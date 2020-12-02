@@ -3,21 +3,13 @@ package com.example.demo.dto;
 import java.time.LocalDate;
 
 public class ReservaDTO {
-    private int número;
+
     private int codCliente;
-    private int codVeículo;
+    private int codVeiculo;
     private LocalDate data_i;
     private LocalDate data_f;
     private double total;
     
-    public int getNúmero() {
-        return número;
-    }
-
-    public void setNúmero(int número) {
-        this.número = número;
-    }
-
     public int getCodCliente() {
         return codCliente;
     }
@@ -26,12 +18,12 @@ public class ReservaDTO {
         this.codCliente = codCliente;
     }
 
-    public int getCodVeículo() {
-        return codVeículo;
+    public int getCodVeiculo() {
+        return codVeiculo;
     }
 
-    public void setCodVeículo(int codVeículo) {
-        this.codVeículo = codVeículo;
+    public void setCodVeiculo(int codVeiculo) {
+        this.codVeiculo = codVeiculo;
     }
 
     public LocalDate getData_i() {

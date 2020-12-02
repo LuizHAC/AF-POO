@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.dto.ClientesDTO;
 import com.example.demo.model.Clientes;
 import com.example.demo.model.Reserva;
 import com.example.demo.repository.ClientesRepository;
@@ -24,8 +25,8 @@ public class ClientesService {
     }
 
     // 2 - Buscar um cliente pelo código
-    public Clientes getClienteByCódigo(int código) {
-        Optional<Clientes> aux = repository.getClienteByCódigo(código);
+    public Clientes getClienteByCodigo(int código) {
+        Optional<Clientes> aux = repository.getClienteByCodigo(código);
         return aux.orElseThrow( () ->
             new ResponseStatusException(
                 HttpStatus.NOT_FOUND,"Cliente não encontrado"
@@ -41,7 +42,7 @@ public class ClientesService {
     // 4 - Remover um cliente
     public Clientes removeCliente(Clientes cliente) {
         List<Reserva> reservas = getReservasByCliente(cliente);
-        Optional<Clientes> aux = repository.getClienteByCódigo(cliente.getCodigo());
+        Optional<Clientes> aux = repository.getClienteByCodigo(cliente.getCodigo());
 
         if (reservas.isEmpty()) {
             repository.removeCliente(cliente);
@@ -58,7 +59,7 @@ public class ClientesService {
 
     // 5 - Alterar um cliente
     public Clientes updateCliente(Clientes cliente) {
-        getClienteByCódigo(cliente.getCodigo());
+        getClienteByCodigo(cliente.getCodigo());
         return repository.updateCliente(cliente);
     }
 
@@ -66,5 +67,14 @@ public class ClientesService {
     public List<Reserva> getReservasByCliente(Clientes cliente) {
         List<Reserva> reservas = repository.getReservasByCliente(cliente);
         return reservas;
+    }
+
+    // DTO
+    public Clientes fromDTO(ClientesDTO dto){
+        Clientes cliente = new Clientes();
+        cliente.setNome(dto.getNome());
+        cliente.setCPF(dto.getCPF());
+        cliente.setEndereço(dto.getEndereço());
+        return cliente;
     }
 }

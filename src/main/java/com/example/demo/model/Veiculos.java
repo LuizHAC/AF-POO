@@ -1,10 +1,17 @@
 package com.example.demo.model;
 
-public class Veículos {
+import java.util.ArrayList;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public class Veiculos {
 
     private int codigo;
     private String modelo;
     private double valor_diario;
+
+    @JsonIgnore
+    private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 
     public int getCodigo(){
         return codigo;
@@ -28,5 +35,21 @@ public class Veículos {
 
     public void setValor_diario(double valor_diario){
         this.valor_diario = valor_diario;
+    }
+
+    public ArrayList<Reserva> getReservas() {
+        return reservas;
+    }
+
+    public void getReservas(ArrayList<Reserva> reservas) {
+        this.reservas = reservas;
+    }
+
+    public boolean addReserva(Reserva reserva) {
+        return reservas.add(reserva);
+    }
+
+    public boolean removeReserva(Reserva reserva) {
+        return reservas.remove(reserva);
     }
 }

@@ -1,18 +1,10 @@
 package com.example.demo.dto;
 
-public class VeículosDTO {
-    private int codigo;
+public class VeiculosDTO {
+    
     private String modelo;
     private double valor_diario;
-
-    public int getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(int codigo) {
-        this.codigo = codigo;
-    }
-
+    
     public String getModelo() {
         return modelo;
     }

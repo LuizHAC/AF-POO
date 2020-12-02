@@ -5,19 +5,19 @@ import java.time.Period;
 
 public class Reserva{
     
-    private int número;
+    private int numero;
     private int codCliente;
-    private int codVeículo;
+    private int codVeiculo;
     private LocalDate data_i;
     private LocalDate data_f;
     private double total;
 
-    public int getNúmero() {
-        return número;
+    public int getNumero() {
+        return numero;
     }
 
-    public void setNúmero(int número) {
-        this.número = número;
+    public void setNumero(int número) {
+        this.numero = número;
     }
 
     public int getCodCliente() {
@@ -28,12 +28,12 @@ public class Reserva{
         this.codCliente = codCliente;
     }
 
-    public int getCodVeículo() {
-        return codVeículo;
+    public int getCodVeiculo() {
+        return codVeiculo;
     }
 
-    public void setCodVeículo(int codVeículo) {
-        this.codVeículo = codVeículo;
+    public void setCodVeiculo(int codVeiculo) {
+        this.codVeiculo = codVeiculo;
     }
 
     public LocalDate getData_i() {
@@ -56,9 +56,9 @@ public class Reserva{
         return total;
     }
     
-    public void setTotal(Veículos veículo, LocalDate data_i, LocalDate data_f) {
+    public void setTotal(Veiculos veiculo, LocalDate data_i, LocalDate data_f) {
         Period p = Period.between(data_f, data_i);
         int dias = p.getDays();
-        this.total = dias * veículo.getValor_diario();
+        this.total = dias * veiculo.getValor_diario();
     }
 }

@@ -14,25 +14,23 @@ import org.springframework.stereotype.Component;
 public class ReservaRepository {
 
     private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
-    private static int nextNúmero = 1;
+    private static int nextNumero = 1;
 
     @PostConstruct
     public void criarReservas() {
-        Reserva c1 = new Reserva();
-        Reserva c2 = new Reserva();
+        // Reserva c1 = new Reserva();
+        // Reserva c2 = new Reserva();
 
-        c1.setNúmero(1);
-        c1.setCodCliente(1);
-        c1.setCodVeículo(1);
+        // c1.setNumero(nextNumero++);
+        // c1.setCodCliente(1);
+        // c1.setCodVeiculo(1);
 
-        c2.setNúmero(2);
-        c2.setCodCliente(2);
-        c2.setCodVeículo(2);
+        // c2.setNumero(nextNumero++);
+        // c2.setCodCliente(2);
+        // c2.setCodVeiculo(2);
 
-        reservas.add(c1);
-        reservas.add(c2);
-
-        nextNúmero = 3;
+        // reservas.add(c1);
+        // reservas.add(c2);
     }
 
     // 1 - Listar todas as reservas
@@ -41,9 +39,9 @@ public class ReservaRepository {
     }
 
     // 2 - Buscar uma reserva pelo código
-    public Optional<Reserva> getReservaByCódigo(int número) {
+    public Optional<Reserva> getReservaByCodigo(int número) {
         for (Reserva aux : reservas) {
-            if (aux.getNúmero() == número) {
+            if (aux.getNumero() == número) {
                 return Optional.of(aux);
             }
         }
@@ -52,7 +50,7 @@ public class ReservaRepository {
 
     // 3 - Cadastra uma reserva
     public Reserva createReserva(Reserva reserva) {
-        reserva.setNúmero(nextNúmero++);
+        reserva.setNumero(nextNumero++);
         reservas.add(reserva);
         return reserva;
     }
@@ -64,11 +62,11 @@ public class ReservaRepository {
 
     // 5 - Alterar uma reserva
     public Reserva updateReserva(Reserva reserva) {
-        Reserva aux = getReservaByCódigo(reserva.getNúmero()).get();
+        Reserva aux = getReservaByCodigo(reserva.getNumero()).get();
 
         if (aux != null) {
             aux.setCodCliente(reserva.getCodCliente());
-            aux.setCodVeículo(reserva.getCodVeículo());
+            aux.setCodVeiculo(reserva.getCodVeiculo());
         }
         return aux;
     }

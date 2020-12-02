@@ -15,28 +15,25 @@ import org.springframework.stereotype.Component;
 public class ClientesRepository {
 
     private ArrayList<Clientes> clientes = new ArrayList<Clientes>();
-    private static int nextCodigo;
-    private ReservaRepository reservaRepository;
+    private static int nextCodigo = 1;
 
     @PostConstruct
     public void criarClientes() {
         Clientes c1 = new Clientes();
         Clientes c2 = new Clientes();
 
-        c1.setCodigo(1);
+        c1.setCodigo(nextCodigo++);
         c1.setNome("Luiz Henrique Aguiar");
         c1.setCPF("456.768.358-39");
         c1.setEndereço("Rua Caramelo Real");
 
-        c2.setCodigo(2);
+        c2.setCodigo(nextCodigo++);
         c2.setNome("Gabriel Nunes");
         c2.setCPF("366.883.798-50");
         c2.setEndereço("Rua Sorvete de Creme");
 
         clientes.add(c1);
         clientes.add(c2);
-
-        nextCodigo = 3;
     }
 
     // 1 - Listar todos os clientes
@@ -45,7 +42,7 @@ public class ClientesRepository {
     }
 
     // 2 - Buscar um cliente pelo código
-    public Optional<Clientes> getClienteByCódigo(int código) {
+    public Optional<Clientes> getClienteByCodigo(int código) {
         for (Clientes aux : clientes) {
             if (aux.getCodigo() == código) {
                 return Optional.of(aux);
@@ -68,7 +65,7 @@ public class ClientesRepository {
 
     // 5 - Alterar um cliente
     public Clientes updateCliente(Clientes cliente) {
-        Clientes aux = getClienteByCódigo(cliente.getCodigo()).get();
+        Clientes aux = getClienteByCodigo(cliente.getCodigo()).get();
 
         if (aux != null) {
             aux.setNome(cliente.getNome());
@@ -77,17 +74,9 @@ public class ClientesRepository {
         return aux;
     }
 
-    // 6 - Listar todas as reservas do cliente
+    // 6 - Listar todos as reservas do cliente
     public List<Reserva> getReservasByCliente(Clientes cliente) {
-        List<Reserva> reservas = reservaRepository.getAllReservas();
-        ArrayList<Reserva> reservasByCliente = new ArrayList<Reserva>();
-
-        for (Reserva aux : reservas) {
-            if (aux.getCodCliente() == cliente.getCodigo()) {
-                reservasByCliente.add(aux);
-            }
-        }
-
-        return reservasByCliente;
+        List<Reserva> aux = cliente.getReservas();
+        return aux;
     }
 }
