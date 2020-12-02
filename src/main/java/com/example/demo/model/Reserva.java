@@ -61,6 +61,4 @@ public class Reserva{
         int dias = p.getDays();
         this.total = dias * veículo.getValor_diario();
     }
-
-
 }

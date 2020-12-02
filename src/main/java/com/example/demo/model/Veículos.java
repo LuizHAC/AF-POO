@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-public class Veículos{
+public class Veículos {
 
     private int codigo;
     private String modelo;

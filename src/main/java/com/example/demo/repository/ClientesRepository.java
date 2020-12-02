@@ -12,13 +12,14 @@ import com.example.demo.model.Reserva;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClientesRepository{
+public class ClientesRepository {
 
     private ArrayList<Clientes> clientes = new ArrayList<Clientes>();
     private static int nextCodigo;
+    private ReservaRepository reservaRepository;
 
     @PostConstruct
-    public void criarClientes(){
+    public void criarClientes() {
         Clientes c1 = new Clientes();
         Clientes c2 = new Clientes();
 
@@ -35,56 +36,58 @@ public class ClientesRepository{
         clientes.add(c1);
         clientes.add(c2);
 
-        nextCodigo =  3;
+        nextCodigo = 3;
     }
 
-    //1 - Listar os clientes
-    public List<Clientes> getAllClientes(){
+    // 1 - Listar todos os clientes
+    public List<Clientes> getAllClientes() {
         return clientes;
     }
 
-    //2 - Listar um cliente pelo código
-    public Optional<Clientes> getClienteByCódigo(int código){
-        for(Clientes aux : clientes){
-            if(aux.getCodigo() == código){
+    // 2 - Buscar um cliente pelo código
+    public Optional<Clientes> getClienteByCódigo(int código) {
+        for (Clientes aux : clientes) {
+            if (aux.getCodigo() == código) {
                 return Optional.of(aux);
             }
         }
         return Optional.empty();
     }
 
-    //3 - Cadastra cliente
-    public Clientes save(Clientes cliente){
+    // 3 - Cadastrar um cliente
+    public Clientes createCliente(Clientes cliente) {
         cliente.setCodigo(nextCodigo++);
         clientes.add(cliente);
         return cliente;
     }
 
-    //4-Remover um cliente
-    public void remove(Clientes cliente){
-
-        nextCodigo--;
+    // 4 - Remover um cliente
+    public void removeCliente(Clientes cliente) {
         clientes.remove(cliente);
     }
 
-    //5-Alterar um cliente
-    public Clientes update(Clientes cliente){
-
+    // 5 - Alterar um cliente
+    public Clientes updateCliente(Clientes cliente) {
         Clientes aux = getClienteByCódigo(cliente.getCodigo()).get();
 
-        if(aux != null){
+        if (aux != null) {
             aux.setNome(cliente.getNome());
-            aux.setCPF(cliente.getCPF());
+            aux.setEndereço(cliente.getEndereço());
         }
-
         return aux;
     }
 
-    //6-Lista todos as reservas do cliente
-    public List<Reserva> getAllReservas(Clientes clientes){
-        return clientes.getReservas();
+    // 6 - Listar todas as reservas do cliente
+    public List<Reserva> getReservasByCliente(Clientes cliente) {
+        List<Reserva> reservas = reservaRepository.getAllReservas();
+        ArrayList<Reserva> reservasByCliente = new ArrayList<Reserva>();
+
+        for (Reserva aux : reservas) {
+            if (aux.getCodCliente() == cliente.getCodigo()) {
+                reservasByCliente.add(aux);
+            }
+        }
+
+        return reservasByCliente;
     }
-
-
-    
 }
