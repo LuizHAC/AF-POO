@@ -94,7 +94,7 @@ public class ReservaService {
         Clientes cliente = clienteService.getClienteByCodigo(reserva.getCodCliente());
         Veiculos veiculo = veiculoService.getVeiculoByCodigo(reserva.getCodVeiculo());
         
-        if(!aux.isEmpty()){
+        if(aux.isPresent()){
             cliente.removeReserva(reserva);
             veiculo.removeReserva(reserva);
             repository.removeReserva(reserva);
