@@ -54,6 +54,10 @@ public class Reserva{
     public double getTotal(){
         return total;
     }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
     
     public void setTotal(Veiculos veiculo, int dias) {
         this.total = dias * veiculo.getValor_diario();

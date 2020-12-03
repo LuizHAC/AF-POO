@@ -50,9 +50,6 @@ public class ReservaController {
         UriComponentsBuilder builder
     ){
         Reserva reserva = reservaService.fromDTO(reservaDTO);
-        if (reserva.getNumero() == -1) {
-            return ResponseEntity.badRequest().build();
-        }
         Reserva novaReserva = reservaService.createReserva(reserva);
         UriComponents uriComponents = builder.path(request.getRequestURI() + "/" + novaReserva.getNumero()).build();
         return ResponseEntity.created(uriComponents.toUri()).build();

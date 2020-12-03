@@ -52,8 +52,9 @@ public class ReservaRepository {
         Reserva aux = getReservaByCodigo(reserva.getNumero()).get();
 
         if (aux != null) {
-            aux.setCodCliente(reserva.getCodCliente());
-            aux.setCodVeiculo(reserva.getCodVeiculo());
+            aux.setData_i(reserva.getData_i());
+            aux.setData_f(reserva.getData_f());
+            aux.setTotal(reserva.getTotal());
         }
         return aux;
     }

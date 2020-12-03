@@ -73,7 +73,7 @@ public class VeiculosService {
     public Veiculos fromDTO(VeiculosDTO dto){
         Veiculos veiculo = new Veiculos();
         veiculo.setModelo(dto.getModelo());
-        veiculo.setValor_diario(dto.getValor_diario());
+        veiculo.setValor_diario(Double.parseDouble(dto.getValor_diario()));
         return veiculo;
     }
 }

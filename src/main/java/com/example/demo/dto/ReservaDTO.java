@@ -2,40 +2,42 @@ package com.example.demo.dto;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ReservaDTO {
 
-    @Min(0)
-    private int codCliente;
+    @Positive(message = "Código do cliente deve ser um valor positivo!")
+    @Pattern(message = "Código do cliente deve ser um valor numérico!", regexp="^[0-9]*$")
+    private String codCliente;
 
-    @Min(0)
-    private int codVeiculo;
-
+    @Positive(message = "Código do veículo deve ser um valor positivo!")
+    @Pattern(message = "Código do veículo deve ser um valor numérico!", regexp="^[0-9]*$")
+    private String codVeiculo;
+    
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate data_i;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate data_f;
     
-    @Min(0)
     private double total;
     
-    public int getCodCliente() {
+    public String getCodCliente() {
         return codCliente;
     }
 
-    public void setCodCliente(int codCliente) {
+    public void setCodCliente(String codCliente) {
         this.codCliente = codCliente;
     }
 
-    public int getCodVeiculo() {
+    public String getCodVeiculo() {
         return codVeiculo;
     }
 
-    public void setCodVeiculo(int codVeiculo) {
+    public void setCodVeiculo(String codVeiculo) {
         this.codVeiculo = codVeiculo;
     }
 
@@ -62,5 +64,4 @@ public class ReservaDTO {
     public void setTotal(double total) {
         this.total = total;
     }
-
 }

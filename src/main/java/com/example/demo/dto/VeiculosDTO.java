@@ -1,7 +1,8 @@
 package com.example.demo.dto;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -11,8 +12,9 @@ public class VeiculosDTO {
     @Length(min = 4, max = 20, message = "Modelo deve ter no mínimo 4 e no máximo 20 caracteres")
     private String modelo;
 
-    @Min(0)
-    private double valor_diario;
+    @Positive(message = "Valor diário deve ser um valor positivo!")
+    @Pattern(message = "Valor diário deve ser um valor numérico", regexp="^[0-9 .]*$")
+    private String valor_diario;
     
     public String getModelo() {
         return modelo;
@@ -22,11 +24,11 @@ public class VeiculosDTO {
         this.modelo = modelo;
     }
 
-    public double getValor_diario() {
+    public String getValor_diario() {
         return valor_diario;
     }
 
-    public void setValor_diario(double valor_diario) {
+    public void setValor_diario(String valor_diario) {
         this.valor_diario = valor_diario;
     }
 

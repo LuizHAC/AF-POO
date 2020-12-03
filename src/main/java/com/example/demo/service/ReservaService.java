@@ -45,16 +45,43 @@ public class ReservaService {
 
     // 3 - Cadastrar uma reserva
     public Reserva createReserva(Reserva reserva) {
-        //Procurar o cliente
-        Clientes cliente = clienteService.getClienteByCodigo(reserva.getCodCliente());
 
-        //Procurar o veiculo
+        //Verifica se as datas são válidas
+        LocalDate inicio = LocalDate.now();
+
+        if (reserva.getData_i().isAfter(reserva.getData_f())) {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data final anterior a data inicial, selecione outra data!");
+        } else if (inicio.isAfter(reserva.getData_i())) {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data inicial anterior a data atual, selecione outra data!");
+        } else if (reserva.getData_i().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data inicial é um domingo, selecione outra data!");
+        } else if (reserva.getData_f().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data final é um domingo, selecione outra data!");
+        }
+
+        //Procurar o cliente e o veiculo
+        Clientes cliente = clienteService.getClienteByCodigo(reserva.getCodCliente());
         Veiculos veiculo = veiculoService.getVeiculoByCodigo(reserva.getCodVeiculo());
 
-        //Vincular ao cliente
-        cliente.addReserva(reserva);
+        //Verificar se o veiculo esta reservado para estas datas
+        List<Reserva> reservasVeiculos = veiculoService.getReservaByVeiculo(veiculo);
 
-        //Vincular ao veiculo
+        for (Reserva aux : reservasVeiculos) {
+            //DataIni da reserva deve ser depois da DataFin aux
+            //DataFin da reserva deve ser antes da DataIni aux
+
+            //Se a DataIni da reserva for antes da DataFin aux, a data pode estar ocupada
+            if (!reserva.getData_i().isAfter(aux.getData_f())) {
+
+                //Se a DataFin da reserva for depois da DataIni aux, a data está ocupada
+                if (!reserva.getData_f().isBefore(aux.getData_i())) {
+                    throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Veículo reservado para a(s) data(s) inseridas, selecione outra data!");
+                }
+            }
+        }
+
+        //Vincular ao cliente e ao veiculo
+        cliente.addReserva(reserva);
         veiculo.addReserva(reserva);
 
         //Criar reserva
@@ -80,7 +107,28 @@ public class ReservaService {
 
     // 5 - Alterar uma reserva
     public Reserva updateReserva(Reserva reserva) {
-        getReservaByCodigo(reserva.getNumero());
+
+        //Verifica datas
+        LocalDate inicio = LocalDate.now();
+
+        if (reserva.getData_i().isAfter(reserva.getData_f())) {
+            throw new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data final anterior a data inicial, selecione outra data!");
+        } else if (inicio.isAfter(reserva.getData_i())) {
+            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data inicial anterior a data atual, selecione outra data!");
+        } else if (reserva.getData_i().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data inicial é um domingo, selecione outra data!");
+        } else if (reserva.getData_f().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data final é um domingo, selecione outra data!");
+        }
+        
+        //Recuperar a reserva a ser atualizada e o veiculo
+        Reserva resAntiga = getReservaByCodigo(reserva.getNumero());
+        Veiculos veiculo = veiculoService.getVeiculoByCodigo(resAntiga.getCodVeiculo());
+        
+        //Recalcular o total usando o mesmo valor de diária da reserva antiga
+        veiculo.setValor_diario(resAntiga.getTotal()/(resAntiga.getData_f().compareTo(resAntiga.getData_i())+1));
+        reserva.setTotal(veiculo, 1 + reserva.getData_f().compareTo(reserva.getData_i()));
+        
         return repository.updateReserva(reserva);
     }
 
@@ -89,31 +137,12 @@ public class ReservaService {
         Reserva reserva = new Reserva();
 
         //Pegar veiculo selecionado
-        Veiculos veiculo = veiculoService.getVeiculoByCodigo(dto.getCodVeiculo());
+        Veiculos veiculo = veiculoService.getVeiculoByCodigo(Integer.parseInt(dto.getCodVeiculo()));
         
-        reserva.setCodCliente(dto.getCodCliente());
-        reserva.setCodVeiculo(dto.getCodVeiculo());
+        reserva.setCodCliente(Integer.parseInt(dto.getCodCliente()));
+        reserva.setCodVeiculo(Integer.parseInt(dto.getCodVeiculo()));
         reserva.setData_i(dto.getData_i());
         reserva.setData_f(dto.getData_f());
-
-        LocalDate inicio = LocalDate.now();
-        if (dto.getData_i().isAfter(dto.getData_f())) {
-            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data final anterior a data inicial!");
-            reserva.setNumero(-1);
-        }
-        if (inicio.isAfter(dto.getData_i())) {
-            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data inicial anterior a data atual!");
-            reserva.setNumero(-1);
-        }
-        if (dto.getData_i().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data inicial é um domingo, selecione outra data!");
-            reserva.setNumero(-1);
-        }
-        if (dto.getData_f().getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-            new ResponseStatusException(HttpStatus.METHOD_NOT_ALLOWED,"Data final é um domingo, selecione outra data!");
-            reserva.setNumero(-1);
-        }
-        
         reserva.setTotal(veiculo, 1+dto.getData_f().compareTo(dto.getData_i()));
         return reserva;
     }
